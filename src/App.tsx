@@ -1,25 +1,35 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Route, Router, Routes, BrowserRouter } from 'react-router-dom';
+import { Header } from './Component/Header';
+import Home from './Pages/Home';
+import Dashboard from './Pages/Dashboard';
+import Login from './Pages/Login';
+import Myorder from './Pages/My order';
+import Profile from './Pages/Profile';
+import Blogs from './Pages/Blogs';
+import { useSelector } from 'react-redux'
+import { RootState } from './Redux/store';
+import ProtectedRoutes from './ProtectedRoutes/ProtectedRoutes';
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <BrowserRouter>
+        <Header />
+
+        <Routes>
+          <Route path='/*' element={<Home />} />
+          <Route path='/Pages/Dashboard' element={<ProtectedRoutes adminRoute={true} isAdmin={false}><Dashboard /></ProtectedRoutes>} />
+          <Route path='/Pages/Login' element={<Login />} />
+          <Route path='/Pages/Profile' element={<ProtectedRoutes adminRoute={false} isAdmin={false}><Profile /></ProtectedRoutes>} />
+          <Route path='/Pages/My order' element={<ProtectedRoutes adminRoute={false} isAdmin={false}><Myorder /></ProtectedRoutes>} />
+          <Route path='/Pages/Blogs' element={<ProtectedRoutes adminRoute={false} isAdmin={false}><Blogs /></ProtectedRoutes>} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
